@@ -1,4 +1,6 @@
+
 EBAY|eBay Inc. - Common Stock
 FB|Facebook, Inc. - Class A Common Stock
-MDB|MongoDB, Inc. - Class A Common Stock
+AAPL|Apple, Inc. - Class A Common Stock
 TSLA|Tesla, Inc.  - Common Stock
+GOOG|Alphabet Inc.

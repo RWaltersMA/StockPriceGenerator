@@ -2,7 +2,6 @@ import random
 import csv
 import argparse
 import pymongo
-#from datetime import datetime, timedelta as dt
 from datetime import date, timedelta
 from datetime import datetime as dt
 
@@ -12,21 +11,19 @@ volatility=.01
 symbols=[]
 last_ticker_price=[]
 
-#this needs to be fixed as it always ^^
 def getprice(old_price):
-	#rnd=random.uniform(0, 1)
-	change_percent = 2 * volatility *  random.random() #rnd #2*
+	change_percent = 2 * volatility *  random.random()
 	if (change_percent > volatility):
 		change_percent -= (2 * volatility)
 	change_amount = old_price * change_percent
 	new_price = old_price + change_amount
+	#for some reason if the rounded price is a whole number it never grows
 	if (round(new_price,2).is_integer()):
 		return (round(new_price,2)+random.uniform(-.05, .05))
 	else:
 		return round(new_price,2)
-
+#processfile will take a text file that contains the ticker of the stock followed by a | delimiter then the name
 def processfile(fn):
-#file that comes from nasdaq has a header and a footer line that we need to ignore
 	try:
 		with open(fn, "rb") as f:
 			row_count = sum(1 for line in f)
@@ -58,6 +55,7 @@ def main():
 	processfile(args.f)
 	c = pymongo.MongoClient(MONGO_URI)
 	db = c.get_database(name='Stock')
+	#everytime you run it we will delete the old data
 	db['StockDocPerSecond'].drop()
 	db['StockDocPerMinute'].drop()
 	d_from = date.today() - timedelta(int(args.d))
