@@ -2,7 +2,6 @@ import random
 import csv
 import argparse
 import pymongo
-#from datetime import datetime, timedelta as dt
 from datetime import date, timedelta
 from datetime import datetime as dt
 import threading
@@ -18,7 +17,6 @@ symbols=[]
 last_ticker_price=[]
 
 def getprice(old_price):
-	#rnd=random.uniform(0, 1)
 	change_percent = 2 * volatility *  random.random() #rnd #2*
 	if (change_percent > volatility):
 		change_percent -= (2 * volatility)
@@ -86,35 +84,13 @@ def worker(stock,d):
 			print 'Worker # ' + str(stock) + ', processing day ' + str(daynumber) + '\n'
 			if (str(daynumber)!=str(d) and str(stock)=='0'):
 				print "Writing size results to file"
-				#F=open("results" + str(stock) + ".txt","a")
 				PerMinuteStats=db.command("collStats","StockDocPerMinute")
-				#F.write("Worker " + str(stock) + ", Day " + str(daynumber) + ", Collection=PERMINUTE\n")
-				#F.write(PerMinuteStats + "\n\n\n")
 				PerMinuteStats.update({'Day' : str(daynumber), 'Duration' : 'perminute'})
 				PerSecondStats=db.command("collStats","StockDocPerSecond")
 				PerSecondStats.update({'Day' : str(daynumber), 'Duration' : 'persecond'})
 				db['mystats'].insert_one(PerMinuteStats)
 				db['mystats'].insert_one(PerSecondStats)
-				
-				#F.write("Worker " + str(stock) + ", Day " + str(daynumber) + ", Collection=PERSECOND\n")
-				#F.write(PerSecondStats + "\n\n\n")
-				
-				#F.flush()
-				#F.close()
-			'''
-				storageSize=int(r['storageSize']) / (1024*1024)
-				dataSize=int(r['size']) / (1024*1024)
-				docs=int(r['count'])
-				indexSize=int(r['totalIndexSize']) / (1024*1024)
-				print("Day=" + str(daynumber) + " PER MIN storageSize=" + str(storageSize) + " dataSize=" + str(dataSize) + " docs=" + str(docs) + " indexSize=" + str(indexSize)) 
-				r2=db.command("collStats","StockDocPerSecond")
-				#print(r)
-				storageSize=int(r2['storageSize']) / (1024*1024)
-				dataSize=int(r2['size']) / (1024*1024)
-				docs=int(r2['count'])
-				indexSize=int(r2['totalIndexSize']) / (1024*1024)
-				print("Day=" + str(daynumber) + " PER SECOND storageSize=" + str(storageSize) + " dataSize=" + str(dataSize) + " docs=" + str(docs) + " indexSize=" + str(indexSize)) 
-			'''
+
 			market_hour=0
 			market_minute=0
 			market_second=0
@@ -154,9 +130,3 @@ def worker(stock,d):
 		raise
 
 main()
-# {
-# attributes:
-# symbol: 
-# price: 
-# }
-# event granulatory - writes document per event, document per minute, per hour
