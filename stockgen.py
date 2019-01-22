@@ -99,9 +99,9 @@ def worker(stock,d):
 				print 'Worker # ' + str(stock) + ', processing day ' + str(daynumber) + ' hour + ' + str(market_hour) + '\n'
 				#print 'Worker # ' + str(stock) + ', processing day ' + str(daynumber) + ' hour + ' + str(market_hour) + ' minute ' + str(market_minute) + '\n'
 				#for every second
-				for market_minute in range(0,59):
+				for market_minute in range(0,60):
 					p={} # this will cache a minute worth of data
-					for second in range(0,59):
+					for second in range(0,60):
 						#add an extra delay so numbers don't change too often
 						#with lock:
 						if (random.uniform(0, 1) > .9):
