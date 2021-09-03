@@ -1,13 +1,15 @@
 # StockPriceGenerator
 
-This tool will populate a MongoDB database with fake stock price data
+This tool will populate a MongoDB database with fake stock price data.  Users can specify how many random stocks to generate and for how long
 
 
-Usage:
+Usage: (generate an hour of datra for 5 companies written to the local MongoDB database)
 
-python stockgen.py -f stocklist.txt -d 10
+python3 stockgen.py -s 5 -x 60
 
--f is a text file that contains the list of stocks 
--d is the number of days of data you want to create
-
-The StockGen tool used to generate sample data will generate the same data and store it in two different collections: StockDocPerSecond and StockDocPerMinute.  This tool is used to showcase how different schema designs for the same data can effect data and index size in MongoDB.
+-s the number of company symbols
+-c MongoDB Connection string
+-d Destination database name
+-col Destination collection name
+-x Number of minutes of data to generate (default 0 = forever)
+	
